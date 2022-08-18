@@ -67,7 +67,7 @@ usuarioCtrl.createCliente = async (req, res) => {
     console.log(req.body);
     await pool.query(`INSERT INTO usuario(contrasena, correo, apellido_materno, apellido_paterno, nombres,id_tipo_usuario) value ('${contrasena}','${correo}','${apellido_materno}','${apellido_paterno}','${nombres}',3)`);
     await pool.query(`INSERT INTO info_usuario (id_usuario,estado,calle,no_exterior,colonia,cp) value (LAST_INSERT_ID(),'${estado}','${calle}',${no_exterior},'${colonia}',${cp})`);
-    res.json({ message: "cliente creado" });
+    res.json({ message: "Tu cuenta ha sido creada" });
 }
 //tomar empleados
 usuarioCtrl.getEmpleados = async (req, res) => {

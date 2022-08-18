@@ -14,5 +14,17 @@ router.put('/articulo/empleado/:id', articulos.updateArticuloEmpleado);
 router.put('/articulo/cliente/:id', articulos.updateArticuloCliente);
 //arituculos
 router.get('/articulos', articulos.getArticulos);
+//modelos
+router.get('/modelos', articulos.getModelo);
+//tallas
+router.get('/tallas', articulos.getTallas);
+//marca
+router.get('/marcas', articulos.getMarca);
+//eliminar articulo
+router.delete('/articulo/:id', articulos.deleteArticulo);
+//
+router.get('/pedidos', articulos.getPedidos);
 
+router.get('/estatus', articulos.getEstatus);
+router.put('/estatus/:id', articulos.setEstatus);
 module.exports = router;

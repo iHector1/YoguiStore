@@ -16,4 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('', require('../routes/usuario.routes'));
 app.use('', require('../routes/articulos.routes'));
+app.use('', require('../routes/correo.routes'));
+app.use('', require('../routes/carrito.routes'));
 module.exports = app; 

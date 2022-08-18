@@ -21,12 +21,13 @@ create table usuario(
     nombres varchar(30) not null,
     id_tipo_usuario int not null,
     primary key(id_usuario), 
-    foreign key(id_tipo_usuario) references tipo_usuario(id_tipo_usuario)
+    foreign key(id_tipo_usuario) references tipo_usuario(id_tipo_usuario) on delete cascade on update cascade
 );
 describe usuario;
 insert into usuario value 
 (1,'12345','admin@admin.com','Gonzalez','Cortes','Hector Josue',1);
-select * from usuario inner join tipo_usuario where usuario.id_tipo_usuario = tipo_usuario.id_tipo_usuario;
+select * from usuario;
+delete from info_usuario where id_info_usuario!=1;
 create table info_usuario(
     id_info_usuario int    auto_increment,
     estado varchar(30) not null,
@@ -36,7 +37,7 @@ create table info_usuario(
     cp int not null,
     id_usuario int not null,
     primary key(id_info_usuario),
-    foreign key(id_usuario) references usuario(id_usuario)
+    foreign key(id_usuario) references usuario(id_usuario) on delete cascade on update cascade
 );
 desc info_usuario;
 insert into info_usuario value 
@@ -92,15 +93,15 @@ create table articulo(
     id_marca int not null,
     id_talla int not null,
     nombre varchar(30) not null,
-    imagen longblob not null,
+    imagen varchar(512),
     stock int not null,
     precio decimal not null,
     primary key(id_articulo),
-    foreign key(id_modelo) references modelo(id_modelo),
-    foreign key(id_marca) references marca(id_marca),
-    foreign key(id_talla) references talla(id_talla)
+    foreign key(id_modelo) references modelo(id_modelo) on delete cascade on update cascade,
+    foreign key(id_marca) references marca(id_marca) on delete cascade on update cascade,
+    foreign key(id_talla) references talla(id_talla) on delete cascade on update cascade
 );
-
+select * from articulo;
 create table estatus(
     id_estatus int auto_increment,
     estatus varchar(12) not null,
@@ -121,10 +122,11 @@ create table pedido(
     fecha_pedido timestamp not null,
     id_estatus int not null,
     primary key(id_pedido),
-    foreign key(id_usuario) references usuario(id_usuario),
-    foreign key(id_estatus) references estatus(id_estatus)
+    foreign key(id_usuario) references usuario(id_usuario) on delete cascade on update cascade,
+    foreign key(id_estatus) references estatus(id_estatus) on delete cascade on update cascade
 );
-
+select * from pedido;
+delete  from pedido where id_pedido=429736;
 create table detalle_pedido(
     id_detalle int auto_increment,
     no_orden int not null,
@@ -141,9 +143,9 @@ create table carrito(
     id_usuario int not null,
     precio_total float not null,
     primary key(id_carrito),
-    foreign key(id_usuario) references usuario(id_usuario)
+    foreign key(id_usuario) references usuario(id_usuario) on delete cascade on update cascade
 );
-
+select * from carrito;
 create table articulo_carrito(
     id_seleccion int auto_increment,
     id_carrito int not null,
@@ -151,7 +153,14 @@ create table articulo_carrito(
     cantidad_articulos int not null,
     total_articulo decimal not null,
     primary key(id_seleccion),
-    foreign key(id_carrito) references carrito(id_carrito),
-    foreign key(id_articulo) references articulo(id_articulo)
+    foreign key(id_carrito) references carrito(id_carrito) on delete cascade on update cascade,
+    foreign key(id_articulo) references articulo(id_articulo) on delete cascade on update cascade
 );
 
+SELECT * FROM usuario u INNER JOIN tipo_usuario t WHERE u.id_tipo_usuario = t.id_tipo_usuario and u.id_usuario=1;
+SELECT * FROM articulo a INNER JOIN modelo m ON m.id_modelo=a.id_modelo INNER JOIN marca mr ON mr.id_marca=a.id_marca INNER JOIN talla t ON t.id_talla=a.id_talla WHERE a.id_articulo=1;
+alter table articulo modify imagen varchar(512);
+alter table pedido modify precio_total float;
+delete from detalle_pedido where precio_total=5000;
+update  pedido set id_estatus=2;
+SELECT * FROM pedido p inner join detalle_pedido d on p.id_pedido=d.no_orden inner join articulo a on a.id_articulo=d.id_articulo where p.id_estatus=1 order by p.fecha_pedido desc ;
