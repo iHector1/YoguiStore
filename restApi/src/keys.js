@@ -5,4 +5,4 @@ module.exports = {
         password: 'awul6dhtM8',
         database: 'sql3666501'
     }
-}
+} 
